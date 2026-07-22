@@ -48,6 +48,10 @@
   .status .pulse{animation:pulse 1.6s ease-in-out infinite}
   @keyframes pulse{50%{opacity:.35}}
   @media(prefers-reduced-motion:reduce){.status .pulse{animation:none}}
+  .players{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;align-items:center}
+  .players span{font-family:var(--mono);font-size:12px;color:var(--text);background:rgba(116,208,137,.10);
+    border:1px solid rgba(116,208,137,.3);border-radius:20px;padding:3px 10px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .players span.lbl{background:transparent;border:0;color:var(--muted);padding:3px 0}
 
   .connectbar{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
   .cbox{flex:1 1 260px;min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:10px;
@@ -130,6 +134,7 @@
       <img class="cslogo" src="assets/logo.png" alt="Counter-Strike 2">
       <h1>Ганбаа-н CS2 Server</h1>
       <div id="status" class="status"><span class="dot pulse"></span><span id="statusText">Шалгаж байна…</span></div>
+      <div id="players" class="players"></div>
     </div>
   </header>
 
@@ -277,16 +282,25 @@
       }).catch(function(){});
     });
   });
-  var el=document.getElementById('status'), txt=document.getElementById('statusText');
+  var el=document.getElementById('status'), txt=document.getElementById('statusText'), pe=document.getElementById('players');
   function ago(sec){var m=Math.floor((Date.now()/1000-sec)/60);return m<1?'дөнгөж сая':m+' мин өмнө';}
+  function esc(t){var d=document.createElement('div');d.textContent=t;return d.innerHTML;}
   function loadStatus(){
     fetch('https://raw.githubusercontent.com/ganbaaelmer/cs2server-guide/status/status.json?_='+Math.floor(Date.now()/60000),{cache:'no-store'})
       .then(function(r){return r.json()})
       .then(function(s){
         el.classList.remove('on','off');
         el.querySelector('.dot').classList.remove('pulse');
-        if(s.online){el.classList.add('on');txt.textContent='ОНЛАЙН · '+s.players+'/'+s.maxplayers+' хүн · '+(s.map||'')+' · '+ago(s.updated);}
-        else{el.classList.add('off');txt.textContent='ОФЛАЙН — сервер унтраастай байна';}
+        if(s.online){
+          el.classList.add('on');
+          var h=s.humans||0;
+          txt.textContent=(h>0?'ОНЛАЙН · '+h+' хүн тоглож байна':'ОНЛАЙН · одоогоор хүн алга')+(s.map?' · '+s.map:'')+' · '+ago(s.updated);
+          if(s.players&&s.players.length){
+            pe.innerHTML='<span class="lbl">👥</span>'+s.players.map(function(n){return '<span>'+esc(n)+'</span>'}).join('');
+          } else pe.innerHTML='';
+        }else{
+          el.classList.add('off');txt.textContent='ОФЛАЙН — сервер унтраастай байна';pe.innerHTML='';
+        }
       })
       .catch(function(){txt.textContent='Статус татаж чадсангүй';});
   }
