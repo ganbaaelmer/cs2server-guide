@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔫</text></svg>">
 <title>Ганбаа-н CS2 Server — Холбогдох заавар</title>
 <style>
   :root{
@@ -15,104 +16,127 @@
     --body:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   }
   *{box-sizing:border-box}
-  html,body{margin:0}
+  html,body{margin:0;overflow-x:hidden}
   body{
     font-family:var(--body);color:var(--text);line-height:1.6;
     background:
-      radial-gradient(1200px 400px at 80% -10%, rgba(240,168,60,.10), transparent 60%),
-      radial-gradient(900px 500px at -10% 20%, rgba(99,178,226,.08), transparent 55%),
+      radial-gradient(1000px 360px at 85% -10%, rgba(240,168,60,.08), transparent 60%),
       var(--ground);
     min-height:100vh;
   }
-  .wrap{max-width:900px;margin:0 auto;padding:26px 18px 60px}
+  .wrap{max-width:900px;margin:0 auto;padding:16px 16px 60px}
   a{color:var(--steel)}
-  /* hero */
-  .hero{border:1px solid var(--line);border-radius:14px;background:linear-gradient(180deg,var(--panel2),var(--panel));
-    padding:22px 22px 20px;position:relative;overflow:hidden}
-  .hero:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(var(--gold),var(--gold-dim))}
-  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin:0 0 6px}
-  h1{font-family:var(--disp);font-weight:700;letter-spacing:.04em;text-transform:uppercase;
-    font-size:clamp(28px,6vw,46px);line-height:1;margin:0 0 10px;text-wrap:balance}
-  /* status pill */
+  img{max-width:100%}
+
+  /* ---------- HERO with CS2 key art ---------- */
+  .hero{position:relative;border:1px solid var(--line);border-radius:16px;overflow:hidden;
+    min-height:clamp(230px,44vw,330px);display:flex;align-items:flex-end;
+    background:#20262f url("assets/library_hero.jpg") center right/cover no-repeat}
+  .hero .scrim{position:absolute;inset:0;background:
+    linear-gradient(90deg, rgba(15,17,21,.95) 0%, rgba(15,17,21,.80) 34%, rgba(15,17,21,.30) 62%, rgba(15,17,21,.05) 100%),
+    linear-gradient(0deg, rgba(15,17,21,.92) 0%, rgba(15,17,21,.25) 42%, transparent 100%)}
+  .hcontent{position:relative;padding:20px 22px;width:100%}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin:0 0 10px}
+  .cslogo{height:clamp(26px,5vw,38px);width:auto;display:block;filter:brightness(0) invert(1);opacity:.96;margin-bottom:12px}
+  h1{font-family:var(--disp);font-weight:700;letter-spacing:.03em;text-transform:uppercase;
+    font-size:clamp(26px,6.5vw,44px);line-height:1;margin:0 0 12px;text-wrap:balance;
+    text-shadow:0 2px 20px rgba(0,0,0,.5)}
   .status{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:13px;
-    border:1px solid var(--line);border-radius:30px;padding:7px 14px;background:var(--ground);color:var(--muted)}
+    border:1px solid var(--line);border-radius:30px;padding:7px 14px;background:rgba(19,22,27,.7);color:var(--muted);backdrop-filter:blur(4px)}
   .dot{width:9px;height:9px;border-radius:50%;background:var(--muted);flex:0 0 auto}
-  .status.on{color:var(--green);border-color:rgba(116,208,137,.4)} .status.on .dot{background:var(--green);box-shadow:0 0 8px var(--green)}
-  .status.off{color:var(--red);border-color:rgba(227,112,105,.4)} .status.off .dot{background:var(--red)}
+  .status.on{color:var(--green);border-color:rgba(116,208,137,.45)} .status.on .dot{background:var(--green);box-shadow:0 0 8px var(--green)}
+  .status.off{color:var(--red);border-color:rgba(227,112,105,.45)} .status.off .dot{background:var(--red)}
   .status .pulse{animation:pulse 1.6s ease-in-out infinite}
   @keyframes pulse{50%{opacity:.35}}
   @media(prefers-reduced-motion:reduce){.status .pulse{animation:none}}
-  .connectbar{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
-  .cbox{flex:1 1 240px;background:var(--ground);border:1px solid var(--line);border-radius:10px;padding:10px 13px;
-    display:flex;align-items:center;justify-content:space-between;gap:10px}
-  .cbox .k{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-family:var(--mono)}
-  .cbox .v{font-family:var(--mono);font-size:16px;color:var(--text);margin-top:3px;word-break:break-all}
+
+  /* ---------- connect quick boxes ---------- */
+  .connectbar{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+  .cbox{flex:1 1 260px;min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:10px;
+    padding:11px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .cbox .k{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-family:var(--mono)}
+  .cbox .v{font-family:var(--mono);font-size:15px;color:var(--text);margin-top:3px;word-break:break-all}
   .cbox .v b{color:var(--gold)}
   .copy{font-family:var(--mono);font-size:11px;color:var(--muted);background:transparent;border:1px solid var(--line);
-    border-radius:6px;padding:6px 10px;cursor:pointer;flex:0 0 auto;transition:.15s}
+    border-radius:6px;padding:8px 11px;cursor:pointer;transition:.15s;flex:0 0 auto}
   .copy:hover{color:var(--gold);border-color:var(--gold-dim)}
   .copy.done{color:var(--green);border-color:var(--green)}
-  /* connect — big vertical steps */
-  h2.sec{font-family:var(--disp);text-transform:uppercase;letter-spacing:.05em;font-size:22px;margin:30px 0 4px;color:var(--gold)}
+  .copy:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+  /* ---------- sections ---------- */
+  h2.sec{font-family:var(--disp);text-transform:uppercase;letter-spacing:.05em;font-size:clamp(19px,5vw,23px);margin:30px 0 4px;color:var(--gold)}
   .lead{color:var(--muted);font-size:14px;margin:0 0 16px}
   .flow{display:flex;flex-direction:column;gap:14px}
-  .fstep{display:flex;gap:16px;border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:16px 16px}
-  .num{flex:0 0 auto;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;
-    font-family:var(--disp);font-size:19px;font-weight:700;color:var(--ground);background:var(--gold)}
-  .fstep .body{flex:1;min-width:0}
-  .fstep h3{margin:2px 0 8px;font-size:16px;font-weight:600}
+  .fstep{display:flex;gap:14px;border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:16px 15px}
+  .num{flex:0 0 auto;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;
+    font-family:var(--disp);font-size:18px;font-weight:700;color:var(--ground);background:var(--gold)}
+  .fstep .fbody{flex:1;min-width:0}
+  .fstep h3{margin:1px 0 8px;font-size:16px;font-weight:600;text-wrap:balance}
   .fstep p{margin:0 0 8px;font-size:14.5px}
   .subs{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:7px}
-  .subs li{position:relative;padding-left:22px;font-size:14px;color:var(--text)}
-  .subs li:before{content:"›";position:absolute;left:6px;top:-1px;color:var(--gold);font-weight:700}
-  .pill{display:inline-flex;align-items:center;gap:8px;background:var(--ground);border:1px solid var(--line);
-    border-radius:8px;padding:8px 10px;margin-top:8px;flex-wrap:wrap}
-  .pill code{font-family:var(--mono);font-size:15px;color:var(--gold);word-break:break-all}
-  .note{font-size:13px;color:var(--muted);margin-top:8px;border-left:2px solid var(--gold-dim);padding-left:10px}
-  .kbd{font-family:var(--mono);font-size:12px;color:var(--gold);border:1px solid var(--gold-dim);border-radius:5px;padding:1px 6px}
+  .subs li{position:relative;padding-left:20px;font-size:14px}
+  .subs li:before{content:"›";position:absolute;left:4px;top:-1px;color:var(--gold);font-weight:700}
+  .pill{display:flex;align-items:center;gap:8px;background:var(--ground);border:1px solid var(--line);
+    border-radius:8px;padding:8px 10px;margin-top:9px;flex-wrap:wrap}
+  .pill code{font-family:var(--mono);font-size:15px;color:var(--gold);word-break:break-all;flex:1 1 auto}
+  .note{font-size:13px;color:var(--muted);margin-top:9px;border-left:2px solid var(--gold-dim);padding-left:10px}
+  .kbd{font-family:var(--mono);font-size:12px;color:var(--gold);border:1px solid var(--gold-dim);border-radius:5px;padding:1px 6px;white-space:nowrap}
   .ok{color:var(--green);font-weight:600}
-  /* command cards */
+
   .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:14px}
-  @media(max-width:660px){.grid{grid-template-columns:1fr}}
-  .card{border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:15px 15px 6px}
-  .card h3{font-family:var(--disp);text-transform:uppercase;letter-spacing:.04em;font-size:17px;margin:0 0 2px;display:flex;align-items:center;gap:8px}
+  .card{border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:15px 15px 7px}
+  .card h3{font-family:var(--disp);text-transform:uppercase;letter-spacing:.04em;font-size:17px;margin:0 0 3px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
   .tag{font-family:var(--mono);font-size:10px;letter-spacing:.1em;padding:2px 7px;border-radius:20px;border:1px solid var(--line);color:var(--muted);text-transform:uppercase}
   .hint{color:var(--muted);font-size:12.5px;margin:2px 0 10px}
   .rows{display:flex;flex-direction:column;gap:1px;margin:0 0 8px}
-  .row{display:flex;align-items:baseline;gap:11px;padding:6px 0;border-top:1px solid rgba(255,255,255,.04)}
+  .row{display:flex;align-items:baseline;gap:11px;padding:6px 0;border-top:1px solid rgba(255,255,255,.05)}
   .row:first-child{border-top:0}
-  .cmd{font-family:var(--mono);font-size:13.5px;color:var(--steel);background:rgba(99,178,226,.08);
-    border:1px solid rgba(99,178,226,.22);border-radius:6px;padding:3px 9px;white-space:nowrap;flex:0 0 auto;min-width:92px;text-align:center}
+  .cmd{font-family:var(--mono);font-size:13px;color:var(--steel);background:rgba(99,178,226,.08);
+    border:1px solid rgba(99,178,226,.22);border-radius:6px;padding:3px 8px;white-space:nowrap;flex:0 0 auto;min-width:84px;text-align:center}
   .row .d{font-size:13.5px}
   .card.skins h3{color:var(--green)} .card.skins .cmd{color:var(--green);background:rgba(116,208,137,.08);border-color:rgba(116,208,137,.25)}
   .card.admin h3{color:var(--red)} .card.admin .cmd{color:var(--red);background:rgba(227,112,105,.08);border-color:rgba(227,112,105,.25)}
+  .full{grid-column:1/-1}
   .banner{border:1px dashed rgba(116,208,137,.4);background:rgba(116,208,137,.06);border-radius:10px;padding:11px 14px;font-size:14px}
   .banner b{color:var(--green)}
+  .grid-cmds{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:0 20px}
   .maps{display:flex;flex-wrap:wrap;gap:7px;margin:2px 0 10px}
   .maps span{font-family:var(--mono);font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:3px 9px}
-  details.trouble{margin-top:14px;border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:2px 16px}
+  details.trouble{margin-top:14px;border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:0 16px}
   details.trouble summary{cursor:pointer;font-family:var(--disp);text-transform:uppercase;letter-spacing:.04em;font-size:17px;padding:14px 0;color:var(--gold)}
+  details.trouble summary:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
   details.trouble .subs{margin:0 0 14px}
   .foot{margin-top:26px;text-align:center;color:var(--muted);font-size:12px;font-family:var(--mono);letter-spacing:.06em}
+
+  @media(max-width:640px){
+    .grid{grid-template-columns:1fr}
+    .cbox{flex-basis:100%}
+    .hero{align-items:flex-end}
+  }
 </style>
 </head>
 <body>
 <div class="wrap">
   <header class="hero">
-    <p class="eyebrow">Counter-Strike 2 · Dedicated Server</p>
-    <h1>Ганбаа-н CS2 Server</h1>
-    <div id="status" class="status"><span class="dot pulse"></span><span id="statusText">Статус шалгаж байна…</span></div>
-    <div class="connectbar">
-      <div class="cbox">
-        <div><div class="k">1 · ZeroTier Network ID</div><div class="v"><b>233ccaac27e4c1dd</b></div></div>
-        <button class="copy" data-copy="233ccaac27e4c1dd">Хуулах</button>
-      </div>
-      <div class="cbox">
-        <div><div class="k">2 · CS2 console команд</div><div class="v">connect <b>172.24.238.93:27015</b></div></div>
-        <button class="copy" data-copy="connect 172.24.238.93:27015">Хуулах</button>
-      </div>
+    <div class="scrim"></div>
+    <div class="hcontent">
+      <p class="eyebrow">Dedicated Server</p>
+      <img class="cslogo" src="assets/logo.png" alt="Counter-Strike 2">
+      <h1>Ганбаа-н CS2 Server</h1>
+      <div id="status" class="status"><span class="dot pulse"></span><span id="statusText">Статус шалгаж байна…</span></div>
     </div>
   </header>
+
+  <div class="connectbar">
+    <div class="cbox">
+      <div><div class="k">1 · ZeroTier Network ID</div><div class="v"><b>233ccaac27e4c1dd</b></div></div>
+      <button class="copy" data-copy="233ccaac27e4c1dd">Хуулах</button>
+    </div>
+    <div class="cbox">
+      <div><div class="k">2 · CS2 console команд</div><div class="v">connect <b>172.24.238.93:27015</b></div></div>
+      <button class="copy" data-copy="connect 172.24.238.93:27015">Хуулах</button>
+    </div>
+  </div>
 
   <h2 class="sec">Хэрхэн холбогдох вэ?</h2>
   <p class="lead">Ердөө 3 алхам. Эхний удаад л тохируулна — дараа нь шууд ордог.</p>
@@ -120,39 +144,39 @@
   <div class="flow">
     <div class="fstep">
       <div class="num">1</div>
-      <div class="body">
+      <div class="fbody">
         <h3>ZeroTier програм суулгах</h3>
         <p><a href="https://www.zerotier.com/download/" target="_blank" rel="noopener">zerotier.com/download</a> руу орж татаж ав.</p>
         <ul class="subs">
-          <li>Windows дээр <b>.msi</b> файлыг ажиллуулаад Next → Install дар.</li>
+          <li>Windows дээр <b>.msi</b> файлыг ажиллуулаад Next → Install.</li>
           <li>Суусны дараа <b>ZeroTier icon</b> компьютерийн <b>доод баруун булан</b> (цагны хажууд) гарч ирнэ.</li>
         </ul>
-        <div class="note">Icon харагдахгүй бол доод баруун булан дахь <span class="kbd">˄</span> (жижиг сум) дээр дарж далд icon-уудыг гаргана. Mac дээр бол дэлгэцийн <b>дээд баруун</b> цэсэнд байрлана.</div>
+        <div class="note">Icon харагдахгүй бол доод баруун булангийн <span class="kbd">˄</span> дээр дарж далд icon-уудыг гарга. Mac дээр <b>дээд баруун</b> цэсэнд байна.</div>
       </div>
     </div>
 
     <div class="fstep">
       <div class="num">2</div>
-      <div class="body">
-        <h3>Сүлжээнд нэгдэх <span style="color:var(--gold)">(энэ хамгийн чухал)</span></h3>
+      <div class="fbody">
+        <h3>Сүлжээнд нэгдэх <span style="color:var(--gold)">(хамгийн чухал)</span></h3>
         <ul class="subs">
-          <li>Доод баруун булан дахь <b>ZeroTier icon дээр хулганы <u>баруун товч</u></b> дар.</li>
-          <li>Гарч ирсэн цэснээс <b>“Join New Network…”</b> дээр дар.</li>
-          <li>Нээгдсэн цонхны нүдэнд доорх <b>Network ID</b>-г буулгаад <b>“Join”</b> дар:</li>
+          <li>Доод баруун булангийн <b>ZeroTier icon дээр хулганы <u>баруун товч</u></b> дар.</li>
+          <li>Гарч ирсэн цэснээс <b>“Join New Network…”</b> дар.</li>
+          <li>Нээгдсэн нүдэнд доорх <b>Network ID</b>-г буулгаад <b>“Join”</b> дар:</li>
         </ul>
         <div class="pill"><code>233ccaac27e4c1dd</code><button class="copy" data-copy="233ccaac27e4c1dd">Хуулах</button></div>
-        <div class="note">“Allow Managed Addresses / Allow Global” гэж асуувал <b>Yes / Allow</b> гэж хариулаарай. Сүлжээ <span class="ok">public</span> тул зөвшөөрөл хүлээх шаардлагагүй — шууд холбогдоно.</div>
+        <div class="note">“Allow Managed / Allow Global” асуувал <b>Yes / Allow</b>. Сүлжээ <span class="ok">public</span> тул зөвшөөрөл хүлээхгүй — шууд холбогдоно.</div>
       </div>
     </div>
 
     <div class="fstep">
       <div class="num">3</div>
-      <div class="body">
+      <div class="fbody">
         <h3>CS2 дотор холбогдох</h3>
         <ul class="subs">
           <li>CS2 тоглоомоо нээ.</li>
-          <li><span class="kbd">~</span> (tilde, Esc-ийн доор) товч дарж <b>console</b> нээ. Console гарахгүй бол: Settings → Game → “Enable Developer Console” → Yes.</li>
-          <li>Доорх командыг бичээд <b>Enter</b> дар:</li>
+          <li><span class="kbd">~</span> товч дарж <b>console</b> нээ. Гарахгүй бол: Settings → Game → “Enable Developer Console” → Yes.</li>
+          <li>Доорх командыг бичээд <b>Enter</b>:</li>
         </ul>
         <div class="pill"><code>connect 172.24.238.93:27015</code><button class="copy" data-copy="connect 172.24.238.93:27015">Хуулах</button></div>
         <div class="note">Серверт орно! 🎉 Нууц үг шаардахгүй.</div>
@@ -161,7 +185,7 @@
   </div>
 
   <h2 class="sec">Тоглоом дотор — командууд</h2>
-  <p class="lead">Бүгд чат дотор бичигдэнэ: <span class="kbd">Y</span> дараад бичээд Enter.</p>
+  <p class="lead">Бүгд чат дотор: <span class="kbd">Y</span> дараад бичээд Enter.</p>
   <div class="grid">
     <section class="card">
       <h3>🎯 Тоглолт удирдах</h3>
@@ -173,7 +197,7 @@
         <div class="row"><span class="cmd">.pause</span><span class="d">Түр зогсоох</span></div>
         <div class="row"><span class="cmd">.unpause</span><span class="d">Үргэлжлүүлэх</span></div>
         <div class="row"><span class="cmd">.knife</span><span class="d">Knife round (тал сонгох)</span></div>
-        <div class="row"><span class="cmd">.stay</span><span class="d">Knife хожвол мөр талдаа үлдэх</span></div>
+        <div class="row"><span class="cmd">.stay</span><span class="d">Knife хожвол талдаа үлдэх</span></div>
         <div class="row"><span class="cmd">.switch</span><span class="d">Knife хожвол тал солих</span></div>
       </div>
     </section>
@@ -192,23 +216,24 @@
       </div>
     </section>
 
-    <section class="card skins" style="grid-column:1/-1">
+    <section class="card skins full">
       <h3>🔫 Скин &amp; Хувцас</h3>
       <div class="banner">Гарц (spawn) болгонд <b>автоматаар топ үнэтэй random скин</b> авна — буу, хутга, бээлий, дүр бүгд! Өөрөө сонгомоор бол:</div>
-      <div class="rows" style="margin-top:10px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px 20px">
+      <div class="rows grid-cmds" style="margin-top:10px">
         <div class="row"><span class="cmd">!ws</span><span class="d">Weapon skin цэс</span></div>
         <div class="row"><span class="cmd">!knife</span><span class="d">Хутга сонгох</span></div>
         <div class="row"><span class="cmd">!gloves</span><span class="d">Бээлий сонгох</span></div>
-        <div class="row"><span class="cmd">!agents</span><span class="d">Дүр (хувцас) сонгох</span></div>
+        <div class="row"><span class="cmd">!agents</span><span class="d">Дүр (хувцас)</span></div>
         <div class="row"><span class="cmd">!pins</span><span class="d">Medal / pin</span></div>
       </div>
     </section>
 
-    <section class="card admin" style="grid-column:1/-1">
+    <section class="card admin full">
       <h3>🛡️ Админ <span class="tag">зөвхөн Ganbaa</span></h3>
-      <div class="rows" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px 20px">
+      <div class="rows grid-cmds">
         <div class="row"><span class="cmd">!admin</span><span class="d">Админ цэс</span></div>
-        <div class="row"><span class="cmd">!ban / !kick</span><span class="d">Хориглох / хөөх</span></div>
+        <div class="row"><span class="cmd">!ban</span><span class="d">Хориглох</span></div>
+        <div class="row"><span class="cmd">!kick</span><span class="d">Хөөх</span></div>
         <div class="row"><span class="cmd">!mute / !gag</span><span class="d">Дуу / чат хаах</span></div>
         <div class="row"><span class="cmd">!slay</span><span class="d">Тоглогч устгах</span></div>
         <div class="row"><span class="cmd">!map</span><span class="d">Map солих</span></div>
@@ -219,10 +244,10 @@
   <details class="trouble">
     <summary>⚠️ Холбогдож чадахгүй бол?</summary>
     <ul class="subs">
-      <li><b>ZeroTier ажиллаж байна уу?</b> Доод баруун булангийн icon дээр дарж сүлжээний нэрийн хажууд <span class="ok">ногоон / OK</span> байгаа эсэхийг шалга.</li>
-      <li><b>Зөв Network ID оруулсан уу?</b> <code style="font-family:var(--mono);color:var(--gold)">233ccaac27e4c1dd</code> — үсэг тоо яг таарч байх ёстой.</li>
-      <li><b>Дээрх статус “ОФЛАЙН” байвал</b> — сервер унтарсан байна. Ганбаад хэл, асаана.</li>
-      <li><b>Console гарахгүй байна уу?</b> CS2 → Settings → Game → “Enable Developer Console” = Yes.</li>
+      <li><b>ZeroTier ажиллаж байна уу?</b> Icon дээр дарж сүлжээний хажууд <span class="ok">ногоон / OK</span> байгааг шалга.</li>
+      <li><b>Зөв Network ID?</b> <code style="font-family:var(--mono);color:var(--gold)">233ccaac27e4c1dd</code> — яг таарч байх ёстой.</li>
+      <li><b>Дээрх статус “ОФЛАЙН” бол</b> сервер унтарсан — Ганбаад хэл, асаана.</li>
+      <li><b>Console гарахгүй бол</b> CS2 → Settings → Game → “Enable Developer Console” = Yes.</li>
       <li><b>Windows Firewall</b> ZeroTier-г асуувал <b>Allow</b> дар.</li>
     </ul>
   </details>
@@ -230,7 +255,6 @@
   <p class="foot">Server developed by Ganbaa · cs2server.site</p>
 </div>
 <script>
-  // copy buttons
   document.querySelectorAll('.copy').forEach(function(b){
     b.addEventListener('click',function(){
       navigator.clipboard.writeText(b.getAttribute('data-copy')).then(function(){
@@ -239,22 +263,16 @@
       }).catch(function(){});
     });
   });
-  // live server status (updated by the server every few minutes)
   var el=document.getElementById('status'), txt=document.getElementById('statusText');
-  function fmtAgo(sec){var m=Math.floor((Date.now()/1000-sec)/60);return m<1?'дөнгөж сая':m+' мин өмнө';}
+  function ago(sec){var m=Math.floor((Date.now()/1000-sec)/60);return m<1?'дөнгөж сая':m+' мин өмнө';}
   function loadStatus(){
     fetch('https://raw.githubusercontent.com/ganbaaelmer/cs2server-guide/status/status.json?_='+Math.floor(Date.now()/60000),{cache:'no-store'})
       .then(function(r){return r.json()})
       .then(function(s){
         el.classList.remove('on','off');
-        if(s.online){
-          el.classList.add('on');
-          txt.textContent='ОНЛАЙН · '+s.players+'/'+s.maxplayers+' тоглогч · '+(s.map||'')+' · '+fmtAgo(s.updated);
-        }else{
-          el.classList.add('off');
-          txt.textContent='ОФЛАЙН — сервер одоогоор унтарсан';
-        }
-        el.querySelector('.dot').classList.remove('pulse');
+        var d=el.querySelector('.dot'); d.classList.remove('pulse');
+        if(s.online){el.classList.add('on');txt.textContent='ОНЛАЙН · '+s.players+'/'+s.maxplayers+' тоглогч · '+(s.map||'')+' · '+ago(s.updated);}
+        else{el.classList.add('off');txt.textContent='ОФЛАЙН — сервер одоогоор унтарсан';}
       })
       .catch(function(){txt.textContent='Статусыг татаж чадсангүй';});
   }
