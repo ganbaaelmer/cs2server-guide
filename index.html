@@ -284,19 +284,17 @@
     });
   });
   var el=document.getElementById('status'), txt=document.getElementById('statusText'), pe=document.getElementById('players');
-  var API='https://api.github.com/repos/ganbaaelmer/cs2server-guide/contents/status.json?ref=status';
+  var RAW='https://raw.githubusercontent.com/ganbaaelmer/cs2server-guide/status/status.json';
   function ago(sec){var m=Math.floor((Date.now()/1000-sec)/60);return m<1?'дөнгөж сая':m+' мин өмнө';}
   function esc(t){var d=document.createElement('div');d.textContent=t;return d.innerHTML;}
-  function b64utf8(b){try{return new TextDecoder().decode(Uint8Array.from(atob((b||'').replace(/\s/g,'')),function(c){return c.charCodeAt(0)}));}catch(e){return '{}';}}
   function loadStatus(){
-    fetch(API,{cache:'no-store'})
+    fetch(RAW+'?_='+Math.floor(Date.now()/60000),{cache:'no-store'})
       .then(function(r){return r.json()})
-      .then(function(d){
-        var s=JSON.parse(b64utf8(d.content));
+      .then(function(s){
         var age=Date.now()/1000-(s.updated||0);
         el.classList.remove('on','off','warm');
         var dot=el.querySelector('.dot'); dot.classList.remove('pulse'); pe.innerHTML='';
-        if(age>480 || s.state==='offline'){
+        if(age>720 || s.state==='offline'){
           el.classList.add('off'); txt.textContent='ОФЛАЙН — сервер унтраастай байна';
         }else if(s.state==='starting'){
           el.classList.add('warm'); dot.classList.add('pulse');
