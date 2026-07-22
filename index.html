@@ -28,7 +28,6 @@
   a{color:var(--steel)}
   img{max-width:100%}
 
-  /* ---------- HERO with CS2 key art ---------- */
   .hero{position:relative;border:1px solid var(--line);border-radius:16px;overflow:hidden;
     min-height:clamp(230px,44vw,330px);display:flex;align-items:flex-end;
     background:#20262f url("assets/library_hero.jpg") center right/cover no-repeat}
@@ -50,7 +49,6 @@
   @keyframes pulse{50%{opacity:.35}}
   @media(prefers-reduced-motion:reduce){.status .pulse{animation:none}}
 
-  /* ---------- connect quick boxes ---------- */
   .connectbar{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
   .cbox{flex:1 1 260px;min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:10px;
     padding:11px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px}
@@ -63,7 +61,6 @@
   .copy.done{color:var(--green);border-color:var(--green)}
   .copy:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 
-  /* ---------- sections ---------- */
   h2.sec{font-family:var(--disp);text-transform:uppercase;letter-spacing:.05em;font-size:clamp(19px,5vw,23px);margin:30px 0 4px;color:var(--gold)}
   .lead{color:var(--muted);font-size:14px;margin:0 0 16px}
   .flow{display:flex;flex-direction:column;gap:14px}
@@ -123,7 +120,7 @@
       <p class="eyebrow">Dedicated Server</p>
       <img class="cslogo" src="assets/logo.png" alt="Counter-Strike 2">
       <h1>Ганбаа-н CS2 Server</h1>
-      <div id="status" class="status"><span class="dot pulse"></span><span id="statusText">Статус шалгаж байна…</span></div>
+      <div id="status" class="status"><span class="dot pulse"></span><span id="statusText">Шалгаж байна…</span></div>
     </div>
   </header>
 
@@ -138,77 +135,77 @@
     </div>
   </div>
 
-  <h2 class="sec">Хэрхэн холбогдох вэ?</h2>
-  <p class="lead">Ердөө 3 алхам. Эхний удаад л тохируулна — дараа нь шууд ордог.</p>
+  <h2 class="sec">Яаж холбогдох вэ?</h2>
+  <p class="lead">Ердөө 3 алхам. Нэг л удаа хийчихвэл дараа нь шууд ороод байх болно.</p>
 
   <div class="flow">
     <div class="fstep">
       <div class="num">1</div>
       <div class="fbody">
-        <h3>ZeroTier програм суулгах</h3>
-        <p><a href="https://www.zerotier.com/download/" target="_blank" rel="noopener">zerotier.com/download</a> руу орж татаж ав.</p>
+        <h3>ZeroTier суулгах</h3>
+        <p>Эндээс татаж ав → <a href="https://www.zerotier.com/download/" target="_blank" rel="noopener">zerotier.com/download</a></p>
         <ul class="subs">
-          <li>Windows дээр <b>.msi</b> файлыг ажиллуулаад Next → Install.</li>
-          <li>Суусны дараа <b>ZeroTier icon</b> компьютерийн <b>доод баруун булан</b> (цагны хажууд) гарч ирнэ.</li>
+          <li>Windows бол татсан <b>.msi</b> файлаа ажиллуулаад Next → Install дараад л суучихна.</li>
+          <li>Суусны дараа дэлгэцийн <b>доод баруун буланд</b> (цагныхаа хажууд) ZeroTier-ийн icon гарч ирнэ.</li>
         </ul>
-        <div class="note">Icon харагдахгүй бол доод баруун булангийн <span class="kbd">˄</span> дээр дарж далд icon-уудыг гарга. Mac дээр <b>дээд баруун</b> цэсэнд байна.</div>
+        <div class="note">Хэрэв icon харагдахгүй бол доод баруун булан дахь <span class="kbd">˄</span> сум дээр дар — нуугдсан icon-ууд гарч ирнэ. Mac дээр бол дэлгэцийн <b>дээд баруун</b> буланд байгаа.</div>
       </div>
     </div>
 
     <div class="fstep">
       <div class="num">2</div>
       <div class="fbody">
-        <h3>Сүлжээнд нэгдэх <span style="color:var(--gold)">(хамгийн чухал)</span></h3>
+        <h3>Сүлжээндээ нэгдэх <span style="color:var(--gold)">(хамгийн чухал нь энэ)</span></h3>
         <ul class="subs">
-          <li>Доод баруун булангийн <b>ZeroTier icon дээр хулганы <u>баруун товч</u></b> дар.</li>
-          <li>Гарч ирсэн цэснээс <b>“Join New Network…”</b> дар.</li>
-          <li>Нээгдсэн нүдэнд доорх <b>Network ID</b>-г буулгаад <b>“Join”</b> дар:</li>
+          <li>Доод баруун булан дахь <b>ZeroTier icon дээрээ хулганы <u>баруун товч</u></b> дар.</li>
+          <li>Гарч ирэх цэснээс <b>«Join New Network…»</b> гэснийг дар.</li>
+          <li>Гарч ирэх нүдэнд доорх <b>Network ID</b>-г хуулж тавиад <b>«Join»</b> дар:</li>
         </ul>
         <div class="pill"><code>233ccaac27e4c1dd</code><button class="copy" data-copy="233ccaac27e4c1dd">Хуулах</button></div>
-        <div class="note">“Allow Managed / Allow Global” асуувал <b>Yes / Allow</b>. Сүлжээ <span class="ok">public</span> тул зөвшөөрөл хүлээхгүй — шууд холбогдоно.</div>
+        <div class="note">«Allow Managed» гэх мэт зүйл асуувал бүгдэд нь <b>Yes / Allow</b> гэж хариулаарай. Манай сүлжээ <span class="ok">нээлттэй</span> болохоор хэн нэгний зөвшөөрөл хүлээхгүйгээр шууд холбогдчихно.</div>
       </div>
     </div>
 
     <div class="fstep">
       <div class="num">3</div>
       <div class="fbody">
-        <h3>CS2 дотор холбогдох</h3>
+        <h3>CS2 дотроосоо холбогдох</h3>
         <ul class="subs">
-          <li>CS2 тоглоомоо нээ.</li>
-          <li><span class="kbd">~</span> товч дарж <b>console</b> нээ. Гарахгүй бол: Settings → Game → “Enable Developer Console” → Yes.</li>
-          <li>Доорх командыг бичээд <b>Enter</b>:</li>
+          <li>CS2-гоо нээ.</li>
+          <li><span class="kbd">~</span> (тильд) товчоо дараад <b>console</b>-оо гарга. Гарахгүй бол Settings → Game → «Enable Developer Console»-г Yes болго.</li>
+          <li>Дараа нь доорх командыг бичээд <b>Enter</b> дар:</li>
         </ul>
         <div class="pill"><code>connect 172.24.238.93:27015</code><button class="copy" data-copy="connect 172.24.238.93:27015">Хуулах</button></div>
-        <div class="note">Серверт орно! 🎉 Нууц үг шаардахгүй.</div>
+        <div class="note">Тэгээд л серверт орчихно! 🎉 Нууц үг ч хэрэггүй.</div>
       </div>
     </div>
   </div>
 
   <h2 class="sec">Тоглоом дотор — командууд</h2>
-  <p class="lead">Бүгд чат дотор: <span class="kbd">Y</span> дараад бичээд Enter.</p>
+  <p class="lead">Командуудыг чат дотор бичнэ: <span class="kbd">Y</span> дараад бичээд Enter.</p>
   <div class="grid">
     <section class="card">
       <h3>🎯 Тоглолт удирдах</h3>
-      <p class="hint">Match эхлүүлэх, зогсоох, дахин эхлүүлэх.</p>
+      <p class="hint">Тоглолт эхлүүлэх, зогсоох, дахин эхлүүлэх.</p>
       <div class="rows">
-        <div class="row"><span class="cmd">.ready</span><span class="d">Бэлэн болох — хоёр тал бэлэн бол match эхэлнэ</span></div>
-        <div class="row"><span class="cmd">.unready</span><span class="d">Бэлэнээ цуцлах</span></div>
-        <div class="row"><span class="cmd">.r</span><span class="d">Тоглолтыг дахин эхлүүлэх</span></div>
+        <div class="row"><span class="cmd">.ready</span><span class="d">Бэлэн боллоо гэдгээ мэдэгдэх — хоёр баг бэлэн бол тоглолт эхэлнэ</span></div>
+        <div class="row"><span class="cmd">.unready</span><span class="d">Бэлэн байснаа болих</span></div>
+        <div class="row"><span class="cmd">.r</span><span class="d">Тоглолтоо эхнээс нь дахин эхлүүлэх</span></div>
         <div class="row"><span class="cmd">.pause</span><span class="d">Түр зогсоох</span></div>
         <div class="row"><span class="cmd">.unpause</span><span class="d">Үргэлжлүүлэх</span></div>
-        <div class="row"><span class="cmd">.knife</span><span class="d">Knife round (тал сонгох)</span></div>
-        <div class="row"><span class="cmd">.stay</span><span class="d">Knife хожвол талдаа үлдэх</span></div>
-        <div class="row"><span class="cmd">.switch</span><span class="d">Knife хожвол тал солих</span></div>
+        <div class="row"><span class="cmd">.knife</span><span class="d">Хутганы раунд — талаа сонгоно</span></div>
+        <div class="row"><span class="cmd">.stay</span><span class="d">Хутгаар хожвол талаа хэвээр барих</span></div>
+        <div class="row"><span class="cmd">.switch</span><span class="d">Хутгаар хожвол нөгөө тал руу шилжих</span></div>
       </div>
     </section>
 
     <section class="card">
       <h3>🗺️ Map солих</h3>
-      <p class="hint">Санал хураалтаар map солино.</p>
+      <p class="hint">Map-аа санал хураалтаар солино.</p>
       <div class="rows">
-        <div class="row"><span class="cmd">rtv</span><span class="d">Map санал хураалт эхлүүлэх</span></div>
+        <div class="row"><span class="cmd">rtv</span><span class="d">Map солих санал хураалт эхлүүлэх</span></div>
         <div class="row"><span class="cmd">nominate</span><span class="d">Дуртай map-аа санал болгох</span></div>
-        <div class="row"><span class="cmd">nextmap</span><span class="d">Дараагийн map харах</span></div>
+        <div class="row"><span class="cmd">nextmap</span><span class="d">Дараагийн ямар map болохыг харах</span></div>
       </div>
       <div class="maps">
         <span>de_mirage</span><span>de_dust2</span><span>de_inferno</span><span>de_anubis</span>
@@ -218,13 +215,13 @@
 
     <section class="card skins full">
       <h3>🔫 Скин &amp; Хувцас</h3>
-      <div class="banner">Гарц (spawn) болгонд <b>автоматаар топ үнэтэй random скин</b> авна — буу, хутга, бээлий, дүр бүгд! Өөрөө сонгомоор бол:</div>
+      <div class="banner">Дахин төрөх (spawn) болгонд буу, хутга, бээлий, дүр чинь <b>автоматаар хамгийн үнэтэй скинүүдээс санамсаргүй</b> солигдоно! Өөрөө сонгомоор бол доорхыг ашигла:</div>
       <div class="rows grid-cmds" style="margin-top:10px">
-        <div class="row"><span class="cmd">!ws</span><span class="d">Weapon skin цэс</span></div>
+        <div class="row"><span class="cmd">!ws</span><span class="d">Бууны скин сонгох</span></div>
         <div class="row"><span class="cmd">!knife</span><span class="d">Хутга сонгох</span></div>
         <div class="row"><span class="cmd">!gloves</span><span class="d">Бээлий сонгох</span></div>
-        <div class="row"><span class="cmd">!agents</span><span class="d">Дүр (хувцас)</span></div>
-        <div class="row"><span class="cmd">!pins</span><span class="d">Medal / pin</span></div>
+        <div class="row"><span class="cmd">!agents</span><span class="d">Дүр (хувцас) сонгох</span></div>
+        <div class="row"><span class="cmd">!pins</span><span class="d">Медаль / pin сонгох</span></div>
       </div>
     </section>
 
@@ -232,23 +229,23 @@
       <h3>🛡️ Админ <span class="tag">зөвхөн Ganbaa</span></h3>
       <div class="rows grid-cmds">
         <div class="row"><span class="cmd">!admin</span><span class="d">Админ цэс</span></div>
-        <div class="row"><span class="cmd">!ban</span><span class="d">Хориглох</span></div>
+        <div class="row"><span class="cmd">!ban</span><span class="d">Хориглох (ban)</span></div>
         <div class="row"><span class="cmd">!kick</span><span class="d">Хөөх</span></div>
         <div class="row"><span class="cmd">!mute / !gag</span><span class="d">Дуу / чат хаах</span></div>
-        <div class="row"><span class="cmd">!slay</span><span class="d">Тоглогч устгах</span></div>
+        <div class="row"><span class="cmd">!slay</span><span class="d">Тоглогчийг устгах</span></div>
         <div class="row"><span class="cmd">!map</span><span class="d">Map солих</span></div>
       </div>
     </section>
   </div>
 
   <details class="trouble">
-    <summary>⚠️ Холбогдож чадахгүй бол?</summary>
+    <summary>⚠️ Холбогдож чадахгүй байна уу?</summary>
     <ul class="subs">
-      <li><b>ZeroTier ажиллаж байна уу?</b> Icon дээр дарж сүлжээний хажууд <span class="ok">ногоон / OK</span> байгааг шалга.</li>
-      <li><b>Зөв Network ID?</b> <code style="font-family:var(--mono);color:var(--gold)">233ccaac27e4c1dd</code> — яг таарч байх ёстой.</li>
-      <li><b>Дээрх статус “ОФЛАЙН” бол</b> сервер унтарсан — Ганбаад хэл, асаана.</li>
-      <li><b>Console гарахгүй бол</b> CS2 → Settings → Game → “Enable Developer Console” = Yes.</li>
-      <li><b>Windows Firewall</b> ZeroTier-г асуувал <b>Allow</b> дар.</li>
+      <li><b>ZeroTier чинь асаалттай юу?</b> Icon дээрээ дараад манай сүлжээний хажууд <span class="ok">ногоон OK</span> гэж байгаа эсэхийг хараарай.</li>
+      <li><b>Network ID зөв үү?</b> <code style="font-family:var(--mono);color:var(--gold)">233ccaac27e4c1dd</code> — үсэг тоо нэг бүрчлэн таарч байх ёстой шүү.</li>
+      <li><b>Дээр «ОФЛАЙН» гэж байвал</b> сервер унтраастай байна — Ганбаад хэлээрэй, асаачихна.</li>
+      <li><b>Console гарч ирэхгүй бол</b> CS2 → Settings → Game → «Enable Developer Console»-г Yes болго.</li>
+      <li><b>Windows Firewall</b> ZeroTier-ийн талаар асуувал заавал <b>Allow</b> гэж хариулаарай.</li>
     </ul>
   </details>
 
@@ -270,11 +267,11 @@
       .then(function(r){return r.json()})
       .then(function(s){
         el.classList.remove('on','off');
-        var d=el.querySelector('.dot'); d.classList.remove('pulse');
-        if(s.online){el.classList.add('on');txt.textContent='ОНЛАЙН · '+s.players+'/'+s.maxplayers+' тоглогч · '+(s.map||'')+' · '+ago(s.updated);}
-        else{el.classList.add('off');txt.textContent='ОФЛАЙН — сервер одоогоор унтарсан';}
+        el.querySelector('.dot').classList.remove('pulse');
+        if(s.online){el.classList.add('on');txt.textContent='ОНЛАЙН · '+s.players+'/'+s.maxplayers+' хүн · '+(s.map||'')+' · '+ago(s.updated);}
+        else{el.classList.add('off');txt.textContent='ОФЛАЙН — сервер унтраастай байна';}
       })
-      .catch(function(){txt.textContent='Статусыг татаж чадсангүй';});
+      .catch(function(){txt.textContent='Статус татаж чадсангүй';});
   }
   loadStatus(); setInterval(loadStatus,60000);
 </script>
