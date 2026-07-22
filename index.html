@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="mn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Manai CS2 Server — Холбогдох заавар</title>
+<style>
+  :root{
+    --ground:#13161b; --panel:#1a1e25; --panel2:#20262f; --line:#2c333d;
+    --text:#e7eaf0; --muted:#93a0b0; --gold:#f0a83c; --gold-dim:#b9822f;
+    --steel:#63b2e2; --green:#74d089; --red:#e37069;
+    --mono:ui-monospace,"Cascadia Code","SF Mono",Menlo,Consolas,monospace;
+    --disp:"Bahnschrift","DIN Condensed","Oswald","Arial Narrow",system-ui,sans-serif;
+    --body:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    font-family:var(--body);color:var(--text);line-height:1.55;
+    background:
+      radial-gradient(1200px 400px at 80% -10%, rgba(240,168,60,.10), transparent 60%),
+      radial-gradient(900px 500px at -10% 20%, rgba(99,178,226,.08), transparent 55%),
+      var(--ground);
+    min-height:100vh;
+  }
+  .wrap{max-width:960px;margin:0 auto;padding:28px 20px 56px}
+  a{color:var(--steel)}
+  .hero{border:1px solid var(--line);border-radius:14px;background:linear-gradient(180deg,var(--panel2),var(--panel));
+    padding:22px 22px 20px;position:relative;overflow:hidden}
+  .hero:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(var(--gold),var(--gold-dim))}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin:0 0 6px}
+  h1{font-family:var(--disp);font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+    font-size:clamp(28px,6vw,46px);line-height:1;margin:0 0 6px;text-wrap:balance}
+  .sub{color:var(--muted);margin:0;font-size:15px}
+  .connectbar{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+  .cbox{flex:1 1 240px;background:var(--ground);border:1px solid var(--line);border-radius:10px;padding:10px 13px;
+    display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .cbox .k{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-family:var(--mono)}
+  .cbox .v{font-family:var(--mono);font-size:16px;color:var(--text);margin-top:3px;word-break:break-all}
+  .cbox .v b{color:var(--gold)}
+  .copy{font-family:var(--mono);font-size:11px;color:var(--muted);background:transparent;border:1px solid var(--line);
+    border-radius:6px;padding:5px 9px;cursor:pointer;flex:0 0 auto;transition:.15s}
+  .copy:hover{color:var(--gold);border-color:var(--gold-dim)}
+  .copy.done{color:var(--green);border-color:var(--green)}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:18px}
+  @media(max-width:680px){.grid{grid-template-columns:1fr}}
+  .card{border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:16px 16px 6px}
+  .card h2{font-family:var(--disp);text-transform:uppercase;letter-spacing:.05em;font-size:19px;margin:0 0 2px;
+    display:flex;align-items:center;gap:9px}
+  .tag{font-family:var(--mono);font-size:10px;letter-spacing:.12em;padding:2px 7px;border-radius:20px;
+    border:1px solid var(--line);color:var(--muted);text-transform:uppercase}
+  .hint{color:var(--muted);font-size:13px;margin:2px 0 12px}
+  .rows{display:flex;flex-direction:column;gap:2px;margin:0 0 10px}
+  .row{display:flex;align-items:baseline;gap:12px;padding:7px 0;border-top:1px solid rgba(255,255,255,.04)}
+  .row:first-child{border-top:0}
+  .cmd{font-family:var(--mono);font-size:14px;color:var(--steel);background:rgba(99,178,226,.08);
+    border:1px solid rgba(99,178,226,.22);border-radius:6px;padding:3px 9px;white-space:nowrap;flex:0 0 auto;min-width:96px;text-align:center}
+  .row .d{color:var(--text);font-size:14px}
+  .card.match h2{color:var(--gold)} .card.match .tag{border-color:var(--gold-dim);color:var(--gold)}
+  .card.skins h2{color:var(--green)} .card.skins .cmd{color:var(--green);background:rgba(116,208,137,.08);border-color:rgba(116,208,137,.25)}
+  .card.admin h2{color:var(--red)} .card.admin .cmd{color:var(--red);background:rgba(227,112,105,.08);border-color:rgba(227,112,105,.25)}
+  .steps{counter-reset:s;display:flex;flex-direction:column;gap:10px;margin:4px 0 12px}
+  .step{counter-increment:s;position:relative;padding-left:40px}
+  .step:before{content:counter(s);position:absolute;left:0;top:-2px;width:27px;height:27px;border-radius:50%;
+    display:grid;place-items:center;font-family:var(--disp);font-size:15px;color:var(--ground);background:var(--gold);font-weight:700}
+  .step .t{font-size:14px}
+  .step .t b{font-family:var(--mono);color:var(--gold)}
+  .banner{margin-top:12px;border:1px dashed rgba(116,208,137,.4);background:rgba(116,208,137,.06);
+    border-radius:10px;padding:11px 14px;color:var(--text);font-size:14px}
+  .banner b{color:var(--green)}
+  .maps{display:flex;flex-wrap:wrap;gap:7px;margin:2px 0 12px}
+  .maps span{font-family:var(--mono);font-size:12.5px;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:3px 9px}
+  .foot{margin-top:22px;text-align:center;color:var(--muted);font-size:12px;font-family:var(--mono);letter-spacing:.08em}
+  .kbd{font-family:var(--mono);font-size:12px;color:var(--gold);border:1px solid var(--gold-dim);border-radius:5px;padding:1px 6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <p class="eyebrow">Counter-Strike 2 · Dedicated Server</p>
+    <h1>Manai CS2 Server</h1>
+    <p class="sub">Найзуудад зориулсан холбогдох ба тоглолт удирдах заавар</p>
+    <div class="connectbar">
+      <div class="cbox">
+        <div><div class="k">ZeroTier Network</div><div class="v"><b>233ccaac27e4c1dd</b></div></div>
+        <button class="copy" data-copy="233ccaac27e4c1dd">Хуулах</button>
+      </div>
+      <div class="cbox">
+        <div><div class="k">Console команд</div><div class="v">connect <b>172.24.238.93:27015</b></div></div>
+        <button class="copy" data-copy="connect 172.24.238.93:27015">Хуулах</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="grid">
+    <section class="card">
+      <h2>🔗 Холбогдох</h2>
+      <p class="hint">Нэг удаа тохируулна — дараа нь шууд ордог.</p>
+      <div class="steps">
+        <div class="step"><div class="t">ZeroTier суулгах: <b>zerotier.com/download</b> (Windows бол .msi ажиллуул)</div></div>
+        <div class="step"><div class="t">ZeroTier icon → Join New Network → <b>233ccaac27e4c1dd</b></div></div>
+        <div class="step"><div class="t">CS2 нээ → console (<span class="kbd">~</span>) → <b>connect 172.24.238.93:27015</b></div></div>
+      </div>
+      <div class="banner">Authorize хийх шаардлагагүй, нууц үг ч алга — нэгдмэгц шууд орно. 🎉</div>
+    </section>
+
+    <section class="card match">
+      <h2>🎯 Тоглолт удирдах <span class="tag">чат: Y</span></h2>
+      <p class="hint">Чат нээгээд (Y товч) доорх командыг бичнэ.</p>
+      <div class="rows">
+        <div class="row"><span class="cmd">.ready</span><span class="d">Бэлэн болох (хоёр тал бэлэн бол match эхэлнэ)</span></div>
+        <div class="row"><span class="cmd">.unready</span><span class="d">Бэлэнээ цуцлах</span></div>
+        <div class="row"><span class="cmd">.r</span><span class="d">Тоглолтыг дахин эхлүүлэх (restart)</span></div>
+        <div class="row"><span class="cmd">.pause</span><span class="d">Түр зогсоох</span></div>
+        <div class="row"><span class="cmd">.unpause</span><span class="d">Үргэлжлүүлэх</span></div>
+        <div class="row"><span class="cmd">.knife</span><span class="d">Knife round (тал сонгох тулаан)</span></div>
+        <div class="row"><span class="cmd">.stay / .switch</span><span class="d">Knife хожвол: үлдэх / тал солих</span></div>
+        <div class="row"><span class="cmd">.tech</span><span class="d">Техникийн завсарлага</span></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>🗺️ Map солих <span class="tag">чат: Y</span></h2>
+      <p class="hint">Map-г санал хураалтаар сольдог.</p>
+      <div class="rows">
+        <div class="row"><span class="cmd">rtv</span><span class="d">Map санал хураалт эхлүүлэх</span></div>
+        <div class="row"><span class="cmd">nominate</span><span class="d">Дуртай map-аа санал болгох</span></div>
+        <div class="row"><span class="cmd">nextmap</span><span class="d">Дараагийн map-г харах</span></div>
+      </div>
+      <div class="maps">
+        <span>de_mirage</span><span>de_dust2</span><span>de_inferno</span><span>de_anubis</span>
+        <span>de_nuke</span><span>de_ancient</span><span>de_vertigo</span>
+      </div>
+    </section>
+
+    <section class="card skins">
+      <h2>🔫 Скин &amp; Хувцас</h2>
+      <div class="banner">Spawn болгонд <b>автоматаар топ үнэтэй random скин</b> авна — буу, хутга, бээлий, дүр бүгд! Гараар бас сонгож болно:</div>
+      <div class="rows" style="margin-top:12px">
+        <div class="row"><span class="cmd">!ws</span><span class="d">Weapon skin цэс</span></div>
+        <div class="row"><span class="cmd">!knife</span><span class="d">Хутга сонгох</span></div>
+        <div class="row"><span class="cmd">!gloves</span><span class="d">Бээлий сонгох</span></div>
+        <div class="row"><span class="cmd">!agents</span><span class="d">Дүр (хувцас) сонгох</span></div>
+        <div class="row"><span class="cmd">!pins</span><span class="d">Medal / pin сонгох</span></div>
+      </div>
+    </section>
+
+    <section class="card admin" style="grid-column:1/-1">
+      <h2>🛡️ Админ <span class="tag">зөвхөн Ganbaa</span></h2>
+      <p class="hint">Серверийг удирдах эрхтэй командууд.</p>
+      <div class="rows" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2px 22px">
+        <div class="row"><span class="cmd">!admin</span><span class="d">Админ цэс</span></div>
+        <div class="row"><span class="cmd">!ban / !kick</span><span class="d">Хориглох / хөөх</span></div>
+        <div class="row"><span class="cmd">!mute / !gag</span><span class="d">Дуу / чат хаах</span></div>
+        <div class="row"><span class="cmd">!slay</span><span class="d">Тоглогчийг устгах</span></div>
+        <div class="row"><span class="cmd">!map</span><span class="d">Map солих</span></div>
+      </div>
+    </section>
+  </div>
+
+  <p class="foot">Server developed by Ganbaa · холбогдож чадахгүй бол ZeroTier ажиллаж байгаа эсэхээ шалга</p>
+</div>
+<script>
+  document.querySelectorAll('.copy').forEach(function(b){
+    b.addEventListener('click',function(){
+      var t=b.getAttribute('data-copy');
+      navigator.clipboard.writeText(t).then(function(){
+        var o=b.textContent;b.textContent='Хуулсан ✓';b.classList.add('done');
+        setTimeout(function(){b.textContent=o;b.classList.remove('done')},1500);
+      }).catch(function(){});
+    });
+  });
+</script>
+</body>
+</html>
