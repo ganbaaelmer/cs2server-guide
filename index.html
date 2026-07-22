@@ -61,6 +61,15 @@
   .copy.done{color:var(--green);border-color:var(--green)}
   .copy:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 
+  /* ---------- perks / promo ---------- */
+  .perks{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}
+  .perk{border:1px solid var(--line);border-radius:12px;background:linear-gradient(180deg,var(--panel2),var(--panel));
+    padding:13px 14px;display:flex;gap:11px;align-items:flex-start}
+  .perk .ico{font-size:22px;flex:0 0 auto;line-height:1.15;filter:saturate(1.1)}
+  .perk b{display:block;font-size:14.5px;margin-bottom:2px}
+  .perk .pd{font-size:12.5px;color:var(--muted);line-height:1.45}
+  @media(max-width:520px){.perks{grid-template-columns:1fr}}
+
   h2.sec{font-family:var(--disp);text-transform:uppercase;letter-spacing:.05em;font-size:clamp(19px,5vw,23px);margin:30px 0 4px;color:var(--gold)}
   .lead{color:var(--muted);font-size:14px;margin:0 0 16px}
   .flow{display:flex;flex-direction:column;gap:14px}
@@ -133,6 +142,14 @@
       <div><div class="k">2 · CS2 console команд</div><div class="v">connect <b>172.24.238.93:27015</b></div></div>
       <button class="copy" data-copy="connect 172.24.238.93:27015">Хуулах</button>
     </div>
+  </div>
+
+  <h2 class="sec">Яагаад энд тоглох вэ? 🔥</h2>
+  <div class="perks">
+    <div class="perk"><div class="ico">🔫</div><div><b>Топ скин — үнэгүй</b><div class="pd">Spawn бүрт хамгийн үнэтэй скин, хутга, бээлий санамсаргүй онооно. Инвентор хэрэггүй.</div></div></div>
+    <div class="perk"><div class="ico">⚡</div><div><b>Бага ping</b><div class="pd">Монголд байрладаг сервер — гацаа сааталгүй, зөөлхөн тоглоом.</div></div></div>
+    <div class="perk"><div class="ico">🏆</div><div><b>Жинхэнэ 5v5</b><div class="pd">MatchZy-тэй: <span class="kbd">.ready</span>, knife round, competitive тохиргоо.</div></div></div>
+    <div class="perk"><div class="ico">🎮</div><div><b>Амар холбогдоно</b><div class="pd">Нууц үггүй, зөвшөөрөл хэрэггүй — 3 алхмаар шууд ор.</div></div></div>
   </div>
 
   <h2 class="sec">Яаж холбогдох вэ?</h2>
