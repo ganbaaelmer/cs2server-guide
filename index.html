@@ -72,6 +72,7 @@
     padding:13px 14px;display:flex;gap:11px;align-items:flex-start}
   .perk .ico{font-size:22px;flex:0 0 auto;line-height:1.15;filter:saturate(1.1)}
   .perk b{display:block;font-size:14.5px;margin-bottom:2px}
+  .perk .pd b{display:inline;font-size:inherit;margin:0} /* keep inline emphasis inline */
   .perk .pd{font-size:12.5px;color:var(--muted);line-height:1.45}
   @media(max-width:520px){.perks{grid-template-columns:1fr}}
 
@@ -152,7 +153,7 @@
 
   <h2 class="sec">Яагаад энд тоглох вэ? 🔥</h2>
   <div class="perks">
-    <div class="perk"><div class="ico">🔫</div><div><b>Үнэтэй скин бүгд үнэгүй</b><div class="pd">Steam дээр <b style="color:var(--gold)">$50-аас 1000+</b> доллар үнэтэй скин, хутга, бээлийг энд мөнгө төлөхгүйгээр барьж тоглоно. Гарах болгонд шинэ скинтэй болно — юу ч худалдаж авах хэрэггүй.</div></div></div>
+    <div class="perk"><div class="ico">🔫</div><div><b>Үнэтэй скин бүгд үнэгүй</b><div class="pd">Steam дээр <b style="color:var(--gold)">$50-аас 1000+</b> доллар үнэтэй скин, хутга, бээлийг энд мөнгө төлөхгүйгээр барьж тоглоно. Серверт орох бүрд шинээр санамсаргүй онооно — юу ч худалдаж авах хэрэггүй.</div></div></div>
     <div class="perk"><div class="ico">⚡</div><div><b>Лаггүй, бага ping</b><div class="pd">Сервер Монголдоо байрладаг болохоор зөөлхөн, гацахгүй тоглогдоно.</div></div></div>
     <div class="perk"><div class="ico">🏆</div><div><b>Жинхэнэ 5v5</b><div class="pd">MatchZy-тэй тул <span class="kbd">.ready</span> дараад бэлдэж, knife round-оор тал сонгож, тэмцээн шиг цэвэрхэн тоглоно.</div></div></div>
     <div class="perk"><div class="ico">🎮</div><div><b>Амар холбогдоно</b><div class="pd">Нууц үг ч, зөвшөөрөл ч хэрэггүй — 3 алхмаар л ороод тоглочихно.</div></div></div>
@@ -211,12 +212,12 @@
       <h3>🎯 Тоглолт удирдах</h3>
       <p class="hint">Тоглолт эхлүүлэх, зогсоох, дахин эхлүүлэх.</p>
       <div class="rows">
-        <div class="row"><span class="cmd">.ready</span><span class="d">Бэлэн боллоо гэдгээ мэдэгдэх — хоёр баг бэлэн бол тоглолт эхэлнэ</span></div>
+        <div class="row"><span class="cmd">.ready</span><span class="d">Бэлэн боллоо гэдгээ мэдэгдэх — 2 хүн бэлэн болмогц тоглолт эхэлнэ</span></div>
         <div class="row"><span class="cmd">.unready</span><span class="d">Бэлэн байснаа болих</span></div>
         <div class="row"><span class="cmd">.restart</span><span class="d">Тоглолтоо эхнээс нь дахин эхлүүлэх</span></div>
         <div class="row"><span class="cmd">.pause</span><span class="d">Түр зогсоох</span></div>
         <div class="row"><span class="cmd">.unpause</span><span class="d">Үргэлжлүүлэх</span></div>
-        <div class="row"><span class="cmd">.knife</span><span class="d">Хутганы раунд — талаа сонгоно</span></div>
+        <div class="row"><span class="cmd">!rk</span><span class="d">Хутганы раунд асаах/унтраах (талаа сонгоно) — админ</span></div>
         <div class="row"><span class="cmd">.stay</span><span class="d">Хутгаар хожвол талаа хэвээр барих</span></div>
         <div class="row"><span class="cmd">.switch</span><span class="d">Хутгаар хожвол нөгөө тал руу шилжих</span></div>
       </div>
@@ -238,9 +239,9 @@
 
     <section class="card skins full">
       <h3>🔫 Скин &amp; Хувцас</h3>
-      <div class="banner">Дахин төрөх (spawn) болгонд буу, хутга, бээлий, дүр чинь <b>автоматаар хамгийн үнэтэй скинүүдээс санамсаргүй</b> солигдоно! Өөрөө сонгомоор бол доорхыг ашигла:</div>
+      <div class="banner">Серверт орох бүрд буу, хутга, бээлий, дүр чинь <b>автоматаар хамгийн үнэтэй скинүүдээс санамсаргүй</b> онооно! Дараа нь доорхоор өөрөө сонговол тоглох туршид тэр сонголт чинь хэвээр хадгалагдана:</div>
       <div class="rows grid-cmds" style="margin-top:10px">
-        <div class="row"><span class="cmd">!ws</span><span class="d">Бууны скин сонгох</span></div>
+        <div class="row"><span class="cmd">!skins</span><span class="d">Бууны скин сонгох</span></div>
         <div class="row"><span class="cmd">!knife</span><span class="d">Хутга сонгох</span></div>
         <div class="row"><span class="cmd">!gloves</span><span class="d">Бээлий сонгох</span></div>
         <div class="row"><span class="cmd">!agents</span><span class="d">Дүр (хувцас) сонгох</span></div>
@@ -275,17 +276,40 @@
   <p class="foot">Server developed by Ganbaa · cs2server.site</p>
 </div>
 <script>
+  // Copy buttons. navigator.clipboard is undefined on a non-secure origin (e.g. the
+  // self-hosted http://<ip>:8080 copy), so fall back to execCommand and always show a
+  // result. Label is captured once so double-clicks can't freeze it on "Хуулсан ✓".
   document.querySelectorAll('.copy').forEach(function(b){
+    if(!b.dataset.label) b.dataset.label=b.textContent;
+    function flash(ok){
+      b.textContent = ok ? 'Хуулсан ✓' : 'Гараар хуулна уу';
+      b.classList.toggle('done', ok);
+      setTimeout(function(){ b.textContent=b.dataset.label; b.classList.remove('done'); }, 1600);
+    }
+    function legacy(text){
+      try{
+        var ta=document.createElement('textarea');
+        ta.value=text; ta.setAttribute('readonly','');
+        ta.style.position='fixed'; ta.style.top='-1000px';
+        document.body.appendChild(ta); ta.select();
+        var ok=document.execCommand('copy');
+        document.body.removeChild(ta);
+        return ok;
+      }catch(e){ return false; }
+    }
     b.addEventListener('click',function(){
-      navigator.clipboard.writeText(b.getAttribute('data-copy')).then(function(){
-        var o=b.textContent;b.textContent='Хуулсан ✓';b.classList.add('done');
-        setTimeout(function(){b.textContent=o;b.classList.remove('done')},1500);
-      }).catch(function(){});
+      var text=b.getAttribute('data-copy');
+      if(navigator.clipboard && window.isSecureContext){
+        navigator.clipboard.writeText(text).then(function(){flash(true)}).catch(function(){flash(legacy(text))});
+      }else{
+        flash(legacy(text));
+      }
     });
   });
   var el=document.getElementById('status'), txt=document.getElementById('statusText'), pe=document.getElementById('players');
   var RAW='https://raw.githubusercontent.com/ganbaaelmer/cs2server-guide/status/status.json';
-  function ago(sec){var m=Math.floor((Date.now()/1000-sec)/60);return m<1?'дөнгөж сая':m+' мин өмнө';}
+  // clamp: a skewed visitor clock must never render "-4 мин өмнө"
+  function ago(sec){var m=Math.max(0,Math.floor((Date.now()/1000-sec)/60));return m<1?'дөнгөж сая':m+' мин өмнө';}
   function esc(t){var d=document.createElement('div');d.textContent=t;return d.innerHTML;}
   function loadStatus(){
     fetch(RAW+'?_='+Math.floor(Date.now()/60000),{cache:'no-store'})
@@ -298,7 +322,7 @@
           el.classList.add('off'); txt.textContent='ОФЛАЙН — сервер унтраастай байна';
         }else if(s.state==='starting'){
           el.classList.add('warm'); dot.classList.add('pulse');
-          txt.textContent='АЧААЛЖ БАЙНА… '+(s.progress||'түр хүлээнэ үү');
+          txt.textContent='АЧААЛЖ БАЙНА'+(s.progress?' · '+s.progress:' · түр хүлээнэ үү');
         }else{
           el.classList.add('on');
           var h=s.humans||0;
@@ -306,7 +330,13 @@
           if(s.players&&s.players.length){pe.innerHTML='<span class="lbl">👥</span>'+s.players.map(function(n){return '<span>'+esc(n)+'</span>'}).join('');}
         }
       })
-      .catch(function(){txt.textContent='Статус татаж чадсангүй';});
+      .catch(function(){
+        // full reset so a failed refresh can't leave a stale ОНЛАЙН badge showing
+        el.classList.remove('on','off','warm');
+        el.querySelector('.dot').classList.remove('pulse');
+        pe.innerHTML='';
+        txt.textContent='Статус тодорхойгүй — сүлжээгээ шалгаарай';
+      });
   }
   loadStatus(); setInterval(loadStatus,90000);
 </script>
