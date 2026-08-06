@@ -323,6 +323,11 @@
         }else if(s.state==='starting'){
           el.classList.add('warm'); dot.classList.add('pulse');
           txt.textContent='АЧААЛЖ БАЙНА'+(s.progress?' · '+s.progress:' · түр хүлээнэ үү');
+        }else if(s.stale){
+          // Server runs fine but on an old build, so CS2 rejects every client with
+          // "Your client is out of date". Say so instead of letting people fail to connect.
+          el.classList.add('warm'); dot.classList.add('pulse');
+          txt.textContent='ШИНЭЧЛЭГДЭЖ БАЙНА · түр хүлээнэ үү (одоо орж чадахгүй)';
         }else{
           el.classList.add('on');
           var h=s.humans||0;
