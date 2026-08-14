@@ -46,9 +46,13 @@
   .status.on{color:var(--green);border-color:rgba(116,208,137,.45)} .status.on .dot{background:var(--green);box-shadow:0 0 8px var(--green)}
   .status.off{color:var(--red);border-color:rgba(227,112,105,.45)} .status.off .dot{background:var(--red)}
   .status.warm{color:var(--gold);border-color:rgba(240,168,60,.5)} .status.warm .dot{background:var(--gold);box-shadow:0 0 8px var(--gold)}
+  .status.info{color:var(--muted);border-color:var(--line)} .status.info .dot{background:var(--muted)}
   .status .pulse{animation:pulse 1.6s ease-in-out infinite}
   @keyframes pulse{50%{opacity:.35}}
   @media(prefers-reduced-motion:reduce){.status .pulse{animation:none}}
+  .statuswrap{display:flex;flex-direction:column;align-items:flex-start;gap:0}
+  .statusdetail{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:8px;
+    min-height:1em;max-width:min(90vw,540px);line-height:1.55}
   .players{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;align-items:center}
   .players span{font-family:var(--mono);font-size:12px;color:var(--text);background:rgba(116,208,137,.10);
     border:1px solid rgba(116,208,137,.3);border-radius:20px;padding:3px 10px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -135,7 +139,10 @@
       <p class="eyebrow">Dedicated Server</p>
       <img class="cslogo" src="assets/logo.png" alt="Counter-Strike 2">
       <h1>Ганбаа-н CS2 Server</h1>
-      <div id="status" class="status"><span class="dot pulse"></span><span id="statusText">Шалгаж байна…</span></div>
+      <div class="statuswrap">
+        <div id="status" class="status"><span class="dot pulse"></span><span id="statusText">Шалгаж байна…</span></div>
+        <div id="statusDetail" class="statusdetail"></div>
+      </div>
       <div id="players" class="players"></div>
     </div>
   </header>
@@ -267,7 +274,9 @@
     <ul class="subs">
       <li><b>ZeroTier чинь асаалттай юу?</b> Icon дээрээ дараад манай сүлжээний хажууд <span class="ok">ногоон OK</span> гэж байгаа эсэхийг хараарай.</li>
       <li><b>Network ID зөв үү?</b> <code style="font-family:var(--mono);color:var(--gold)">233ccaac27e4c1dd</code> — үсэг тоо нэг бүрчлэн таарч байх ёстой шүү.</li>
-      <li><b>Дээр «ОФЛАЙН» гэж байвал</b> сервер унтраастай байна — Ганбаад хэлээрэй, асаачихна.</li>
+      <li><b>Дээр «СЕРВЕР УНТРААЛТТАЙ» гэвэл</b> сервер жинхэнэ унтраастай — Ганбаад хэлээрэй, асаачихна.</li>
+      <li><b>«СТАТУС ТОДОРХОЙГҮЙ» гэвэл</b> компьютер унтраалттай эсвэл сервер дөнгөж асаж байна — 1–2 минут хүлээгээд дахин үзээрэй.</li>
+      <li><b>«АЧААЛЖ БАЙНА» / «ШИНЭЧЛЭГДЭЖ БАЙНА» гэвэл</b> сервер бэлдэж байгаа — хэдхэн минутын дараа ороорой.</li>
       <li><b>Console гарч ирэхгүй бол</b> CS2 → Settings → Game → «Enable Developer Console»-г Yes болго.</li>
       <li><b>Windows Firewall</b> ZeroTier-ийн талаар асуувал заавал <b>Allow</b> гэж хариулаарай.</li>
     </ul>
@@ -306,44 +315,67 @@
       }
     });
   });
-  var el=document.getElementById('status'), txt=document.getElementById('statusText'), pe=document.getElementById('players');
+  var el=document.getElementById('status'), txt=document.getElementById('statusText'),
+      det=document.getElementById('statusDetail'), pe=document.getElementById('players'),
+      dot=el.querySelector('.dot');
   var RAW='https://raw.githubusercontent.com/ganbaaelmer/cs2server-guide/status/status.json';
-  // clamp: a skewed visitor clock must never render "-4 мин өмнө"
-  function ago(sec){var m=Math.max(0,Math.floor((Date.now()/1000-sec)/60));return m<1?'дөнгөж сая':m+' мин өмнө';}
+  // The status feed is pushed every couple of minutes. If it hasn't updated within this
+  // window the data is stale (computer likely off, or the server is only just booting) —
+  // we say so honestly instead of claiming the server is down.
+  var STALE_SEC=420;
+  // clamp: a skewed visitor clock must never render a negative "-4 мин өмнө"
+  function ago(sec){var m=Math.max(0,Math.floor((Date.now()/1000-sec)/60));return m<1?'дөнгөж сая':(m<60?m+' минутын өмнө':(Math.floor(m/60)+' цаг '+(m%60)+' минутын өмнө'));}
+  function uptime(sec){var s=Math.max(0,Math.floor(Date.now()/1000-sec)),h=Math.floor(s/3600),m=Math.floor((s%3600)/60);return h>0?h+' цаг '+m+' мин':m+' мин';}
   function esc(t){var d=document.createElement('div');d.textContent=t;return d.innerHTML;}
+  function reset(){el.classList.remove('on','off','warm','info');dot.classList.remove('pulse');pe.innerHTML='';det.textContent='';}
+  function render(s){
+    var age=Date.now()/1000-(s.updated||0);
+    reset();
+    if(age>STALE_SEC){
+      // Data is old. Do NOT assert the server is off — we simply don't know right now.
+      el.classList.add('info');
+      txt.textContent='СТАТУС ТОДОРХОЙГҮЙ';
+      det.textContent='Хамгийн сүүлд '+ago(s.updated)+' шинэчлэгдсэн. Компьютер унтраалттай, эсвэл сервер дөнгөж асаж байгаа байж болзошгүй — 1–2 минутын дараа дахин шалгаарай.';
+    }else if(s.state==='offline'){
+      // Fresh data AND container down => genuinely off (the machine is on and reporting).
+      el.classList.add('off');
+      txt.textContent='СЕРВЕР УНТРААЛТТАЙ';
+      det.textContent='Одоогоор ажиллахгүй байна · '+ago(s.updated)+' шинэчлэгдсэн';
+    }else if(s.state==='starting'){
+      el.classList.add('warm');dot.classList.add('pulse');
+      txt.textContent='АЧААЛЖ БАЙНА';
+      det.textContent=(s.progress?s.progress:'түр хүлээнэ үү')+' · '+ago(s.updated);
+    }else if(s.stale){
+      // Online but on an old build — CS2 rejects clients with "Your client is out of date".
+      el.classList.add('warm');dot.classList.add('pulse');
+      txt.textContent='ШИНЭЧЛЭГДЭЖ БАЙНА';
+      det.textContent='Тоглоомын шинэчлэлт орж байгаа тул түр хүлээнэ үү (одоохондоо орж чадахгүй) · '+ago(s.updated);
+    }else{
+      el.classList.add('on');
+      var h=s.humans||0;
+      txt.textContent=h>0?('ОНЛАЙН · '+h+' тоглогч'):'ОНЛАЙН · одоогоор хоосон';
+      var bits=[];
+      if(s.map)bits.push('🗺️ '+s.map);
+      if(s.since)bits.push('⏱️ '+uptime(s.since)+' ажиллаж байна');
+      bits.push(ago(s.updated)+' шинэчлэгдсэн');
+      det.textContent=bits.join('  ·  ');
+      if(s.players&&s.players.length){pe.innerHTML='<span class="lbl">👥</span>'+s.players.map(function(n){return '<span>'+esc(n)+'</span>'}).join('');}
+    }
+  }
   function loadStatus(){
-    fetch(RAW+'?_='+Math.floor(Date.now()/60000),{cache:'no-store'})
-      .then(function(r){return r.json()})
-      .then(function(s){
-        var age=Date.now()/1000-(s.updated||0);
-        el.classList.remove('on','off','warm');
-        var dot=el.querySelector('.dot'); dot.classList.remove('pulse'); pe.innerHTML='';
-        if(age>720 || s.state==='offline'){
-          el.classList.add('off'); txt.textContent='ОФЛАЙН — сервер унтраастай байна';
-        }else if(s.state==='starting'){
-          el.classList.add('warm'); dot.classList.add('pulse');
-          txt.textContent='АЧААЛЖ БАЙНА'+(s.progress?' · '+s.progress:' · түр хүлээнэ үү');
-        }else if(s.stale){
-          // Server runs fine but on an old build, so CS2 rejects every client with
-          // "Your client is out of date". Say so instead of letting people fail to connect.
-          el.classList.add('warm'); dot.classList.add('pulse');
-          txt.textContent='ШИНЭЧЛЭГДЭЖ БАЙНА · түр хүлээнэ үү (одоо орж чадахгүй)';
-        }else{
-          el.classList.add('on');
-          var h=s.humans||0;
-          txt.textContent=(h>0?'ОНЛАЙН · '+h+' хүн тоглож байна':'ОНЛАЙН · одоогоор хүн алга')+(s.map?' · '+s.map:'')+' · '+ago(s.updated);
-          if(s.players&&s.players.length){pe.innerHTML='<span class="lbl">👥</span>'+s.players.map(function(n){return '<span>'+esc(n)+'</span>'}).join('');}
-        }
-      })
+    // Unique per-request query so GitHub's CDN can't hand us a copy cached up to 5 min.
+    fetch(RAW+'?t='+Date.now(),{cache:'no-store'})
+      .then(function(r){if(!r.ok)throw 0;return r.json();})
+      .then(render)
       .catch(function(){
-        // full reset so a failed refresh can't leave a stale ОНЛАЙН badge showing
-        el.classList.remove('on','off','warm');
-        el.querySelector('.dot').classList.remove('pulse');
-        pe.innerHTML='';
-        txt.textContent='Статус тодорхойгүй — сүлжээгээ шалгаарай';
+        reset();el.classList.add('info');
+        txt.textContent='СТАТУС ТАТАЖ ЧАДСАНГҮЙ';
+        det.textContent='Сүлжээгээ шалгаад дахин оролдоно уу.';
       });
   }
-  loadStatus(); setInterval(loadStatus,90000);
+  loadStatus(); setInterval(loadStatus,60000);
+  // Refresh the moment the visitor comes back to the tab, so it's never showing old info.
+  document.addEventListener('visibilitychange',function(){if(!document.hidden)loadStatus();});
 </script>
 </body>
 </html>
