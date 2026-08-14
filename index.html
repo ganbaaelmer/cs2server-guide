@@ -322,6 +322,7 @@
       det=document.getElementById('statusDetail'), pe=document.getElementById('players'),
       dot=el.querySelector('.dot');
   var RAW='https://raw.githubusercontent.com/ganbaaelmer/cs2server-guide/status/status.json';
+  var API='https://api.github.com/repos/ganbaaelmer/cs2server-guide/contents/status.json?ref=status';
   // Stale threshold. The feed is pushed every 2 min, and raw.githubusercontent's CDN may
   // serve a copy up to its 300s max-age regardless of the ?t= buster — so an honest gap of
   // ~2min push + 300s CDN + 60s poll is normal. 720s only trips when the machine is truly
@@ -383,11 +384,19 @@
       det.textContent='Мэдээлэл уншигдсангүй · '+ago(s.updated);
     }
   }
-  function loadStatus(){
-    // ?t= helps where the CDN keys on the query string, but some POPs ignore it and can
-    // still serve a copy up to 300s old — STALE_SEC above absorbs that, not the buster.
-    fetch(RAW+'?t='+Date.now(),{cache:'no-store'})
+  function fetchStatus(){
+    // API first: fresh within ~60s (raw's CDN can be up to 300s stale) and CORS-enabled.
+    // It is rate-limited to 60 req/hr per visitor IP, so on any failure (403, network)
+    // fall back to the raw CDN; the ?t= buster helps where that CDN keys on the query.
+    return fetch(API,{headers:{'Accept':'application/vnd.github.raw+json'},cache:'no-store'})
       .then(function(r){if(!r.ok)throw 0;return r.json();})
+      .catch(function(){
+        return fetch(RAW+'?t='+Date.now(),{cache:'no-store'})
+          .then(function(r){if(!r.ok)throw 0;return r.json();});
+      });
+  }
+  function loadStatus(){
+    fetchStatus()
       .then(render)
       .catch(function(){
         reset();el.classList.add('info');
