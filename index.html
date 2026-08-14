@@ -253,6 +253,8 @@
         <div class="row"><span class="cmd">!gloves</span><span class="d">Бээлий сонгох</span></div>
         <div class="row"><span class="cmd">!agents</span><span class="d">Дүр (хувцас) сонгох</span></div>
         <div class="row"><span class="cmd">!pins</span><span class="d">Медаль / pin сонгох</span></div>
+        <div class="row"><span class="cmd">!music</span><span class="d">Music kit сонгох</span></div>
+        <div class="row"><span class="cmd">!wp</span><span class="d">Скин шууд харагдахгүй бол дахин ачаалах</span></div>
       </div>
     </section>
 
@@ -276,7 +278,8 @@
       <li><b>Network ID зөв үү?</b> <code style="font-family:var(--mono);color:var(--gold)">233ccaac27e4c1dd</code> — үсэг тоо нэг бүрчлэн таарч байх ёстой шүү.</li>
       <li><b>Дээр «СЕРВЕР УНТРААЛТТАЙ» гэвэл</b> сервер жинхэнэ унтраастай — Ганбаад хэлээрэй, асаачихна.</li>
       <li><b>«СТАТУС ТОДОРХОЙГҮЙ» гэвэл</b> компьютер унтраалттай эсвэл сервер дөнгөж асаж байна — 1–2 минут хүлээгээд дахин үзээрэй.</li>
-      <li><b>«АЧААЛЖ БАЙНА» / «ШИНЭЧЛЭГДЭЖ БАЙНА» гэвэл</b> сервер бэлдэж байгаа — хэдхэн минутын дараа ороорой.</li>
+      <li><b>«АЧААЛЖ БАЙНА» гэвэл</b> сервер бэлдэж байгаа — хэдхэн минутын дараа ороорой.</li>
+      <li><b>«ХУУЧИН ХУВИЛБАРТАЙ» гэвэл</b> Valve шинэчлэлт гаргасан байна — дотор нь тоглож байгаа хүмүүсийг гартал хүлээгээд автоматаар шинэчлэгдэнэ (заримдаа хэдэн цаг болж магадгүй).</li>
       <li><b>Console гарч ирэхгүй бол</b> CS2 → Settings → Game → «Enable Developer Console»-г Yes болго.</li>
       <li><b>Windows Firewall</b> ZeroTier-ийн талаар асуувал заавал <b>Allow</b> гэж хариулаарай.</li>
     </ul>
@@ -319,12 +322,18 @@
       det=document.getElementById('statusDetail'), pe=document.getElementById('players'),
       dot=el.querySelector('.dot');
   var RAW='https://raw.githubusercontent.com/ganbaaelmer/cs2server-guide/status/status.json';
-  // The status feed is pushed every couple of minutes. If it hasn't updated within this
-  // window the data is stale (computer likely off, or the server is only just booting) —
-  // we say so honestly instead of claiming the server is down.
-  var STALE_SEC=420;
-  // clamp: a skewed visitor clock must never render a negative "-4 мин өмнө"
-  function ago(sec){var m=Math.max(0,Math.floor((Date.now()/1000-sec)/60));return m<1?'дөнгөж сая':(m<60?m+' минутын өмнө':(Math.floor(m/60)+' цаг '+(m%60)+' минутын өмнө'));}
+  // Stale threshold. The feed is pushed every 2 min, and raw.githubusercontent's CDN may
+  // serve a copy up to its 300s max-age regardless of the ?t= buster — so an honest gap of
+  // ~2min push + 300s CDN + 60s poll is normal. 720s only trips when the machine is truly
+  // silent; we then say "unknown", never a false "off".
+  var STALE_SEC=720;
+  // clamp: a skewed visitor clock must never render a negative "-4 мин өмнө";
+  // a missing/invalid timestamp must never render "NaN цаг NaN минутын өмнө".
+  function ago(sec){
+    if(!sec||!isFinite(sec))return 'тодорхойгүй хугацааны өмнө';
+    var m=Math.max(0,Math.floor((Date.now()/1000-sec)/60));
+    return m<1?'дөнгөж сая':(m<60?m+' минутын өмнө':(Math.floor(m/60)+' цаг '+(m%60)+' минутын өмнө'));
+  }
   function uptime(sec){var s=Math.max(0,Math.floor(Date.now()/1000-sec)),h=Math.floor(s/3600),m=Math.floor((s%3600)/60);return h>0?h+' цаг '+m+' мин':m+' мин';}
   function esc(t){var d=document.createElement('div');d.textContent=t;return d.innerHTML;}
   function reset(){el.classList.remove('on','off','warm','info');dot.classList.remove('pulse');pe.innerHTML='';det.textContent='';}
@@ -346,11 +355,18 @@
       txt.textContent='АЧААЛЖ БАЙНА';
       det.textContent=(s.progress?s.progress:'түр хүлээнэ үү')+' · '+ago(s.updated);
     }else if(s.stale){
-      // Online but on an old build — CS2 rejects clients with "Your client is out of date".
+      // Running on an old build: whoever is INSIDE keeps playing, but NEW clients are
+      // rejected with "Your client is out of date". The update applies automatically at
+      // the next hourly check once the server is empty — say exactly that.
       el.classList.add('warm');dot.classList.add('pulse');
-      txt.textContent='ШИНЭЧЛЭГДЭЖ БАЙНА';
-      det.textContent='Тоглоомын шинэчлэлт орж байгаа тул түр хүлээнэ үү (одоохондоо орж чадахгүй) · '+ago(s.updated);
-    }else{
+      var hs=s.humans||0;
+      txt.textContent='ХУУЧИН ХУВИЛБАРТАЙ · шинээр орох боломжгүй';
+      det.textContent=(hs>0
+        ? hs+' тоглогч дотор тоглосоор байна — тэднийг гарсны дараа автоматаар шинэчлэгдэнэ'
+        : 'Удахгүй автоматаар шинэчлэгдэнэ')
+        +(s.map?' · 🗺️ '+s.map:'')+' · '+ago(s.updated)+' шинэчлэгдсэн';
+      if(s.players&&s.players.length){pe.innerHTML='<span class="lbl">👥</span>'+s.players.map(function(n){return '<span>'+esc(n)+'</span>'}).join('');}
+    }else if(s.state==='online'){
       el.classList.add('on');
       var h=s.humans||0;
       txt.textContent=h>0?('ОНЛАЙН · '+h+' тоглогч'):'ОНЛАЙН · одоогоор хоосон';
@@ -360,10 +376,16 @@
       bits.push(ago(s.updated)+' шинэчлэгдсэн');
       det.textContent=bits.join('  ·  ');
       if(s.players&&s.players.length){pe.innerHTML='<span class="lbl">👥</span>'+s.players.map(function(n){return '<span>'+esc(n)+'</span>'}).join('');}
+    }else{
+      // Unknown payload shape — never assert ONLINE from data we don't understand.
+      el.classList.add('info');
+      txt.textContent='СТАТУС ТОДОРХОЙГҮЙ';
+      det.textContent='Мэдээлэл уншигдсангүй · '+ago(s.updated);
     }
   }
   function loadStatus(){
-    // Unique per-request query so GitHub's CDN can't hand us a copy cached up to 5 min.
+    // ?t= helps where the CDN keys on the query string, but some POPs ignore it and can
+    // still serve a copy up to 300s old — STALE_SEC above absorbs that, not the buster.
     fetch(RAW+'?t='+Date.now(),{cache:'no-store'})
       .then(function(r){if(!r.ok)throw 0;return r.json();})
       .then(render)
