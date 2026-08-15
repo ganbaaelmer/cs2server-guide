@@ -1,1 +1,1 @@
-{"state": "starting", "online": false, "humans": 0, "maxplayers": 0, "map": "", "players": [], "progress": "сервер ачаалж байна", "since": 1786767351, "hostname": "Ганбаа-н CS2 Server", "stale": false, "updated": 1786767425}
+{"state": "online", "online": true, "humans": 0, "maxplayers": 64, "map": "de_dust2", "players": [], "progress": "", "since": 1786767351, "hostname": "Ганбаа-н CS2 Server", "stale": false, "updated": 1786767481}
